@@ -1,0 +1,21 @@
+{
+  "name": "Recicle Beats - Rhythm for the Planet",
+  "short_name": "Recicle Beats",
+  "description": "Un videojuego de ritmo sobre reciclaje, combos y un planeta que quiere bailar.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4e9d5",
+  "theme_color": "#f4e9d5",
+  "lang": "es",
+  "categories": ["games", "music", "education"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

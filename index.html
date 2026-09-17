@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4e9d5">
+  <meta name="description" content="Recicle Beats: rhythm, recycling and comic-book chaos.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>RECICLE BEATS // Rhythm for the planet</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Recicle Beats inicio"><span class="brand-mark">RB</span><span>RECICLE<br><b>BEATS</b></span></a>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a href="#gameplay">Mecánicas</a><a href="#levels">Tracks</a><a href="#impact">Impacto</a>
+    </nav>
+    <button class="icon-button" id="sound-toggle" type="button" aria-label="Activar sonido" aria-pressed="false">♪</button>
+  </header>
+
+  <main id="top">
+    <section class="hero section-shell" aria-labelledby="hero-title">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span class="signal-dot"></span> PLAYER 01 / PLANET EARTH</p>
+        <h1 id="hero-title">BEAT<br><em>THE</em><br>WASTE<span class="bang">!</span></h1>
+        <p class="hero-lede">El planeta puso el beat.<br>Tu combo decide el futuro.</p>
+        <div class="hero-actions">
+          <button class="comic-button comic-button--yellow" id="demo-button" type="button"><span>JUGAR DEMO</span><b>↗</b></button>
+          <button class="comic-button comic-button--outline" id="install-button" type="button"><span>DESCARGAR PWA</span><b>↓</b></button>
+        </div>
+        <div class="hero-meta"><span>02:48</span><i></i><span>120 BPM</span><i></i><span>∞ COMBO</span></div>
+      </div>
+      <div class="hero-art reveal reveal-delay" aria-label="Ilustración de una lata de refresco convertida en personaje musical">
+        <div class="burst burst-top">READY<br><small>TO SORT?</small></div>
+        <div class="character-stage"><div class="speed-lines"></div><div class="hero-character"><div class="can-tab"></div><div class="can-face"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth"></span></div><div class="can-label">R<br><small>BEAT</small></div><div class="can-arm arm-left"></div><div class="can-arm arm-right"></div></div><div class="vinyl"></div></div>
+        <div class="burst burst-bottom">RECYCLE<br><small>OR REPEAT!</small></div>
+        <p class="art-caption">SCENE 01: THE SORTING YARD</p>
+      </div>
+      <div class="scroll-cue">SCROLL TO DROP <span>↓</span></div>
+    </section>
+
+    <section class="marquee" aria-label="Mensaje de impacto"><div>♻ RECYCLE ON THE BEAT <span>✦</span> SAVE THE DAY <span>✦</span> RECYCLE ON THE BEAT <span>✦</span> SAVE THE DAY <span>✦</span></div></section>
+
+    <section class="section-shell gameplay-section" id="gameplay" aria-labelledby="gameplay-title">
+      <div class="section-heading"><p class="eyebrow">01 / HOW TO PLAY</p><h2 id="gameplay-title">SORT IT.<br><span>DROP IT.</span><br>FEEL IT.</h2><p class="section-note">Cada objeto tiene su ritmo.<br>Encuentra el contenedor. Hazlo perfecto.</p></div>
+      <div class="mechanic-grid">
+        <article class="mechanic-card card-yellow" data-sfx="perfect"><span class="card-number">01</span><div class="card-icon">♧</div><h3>IDENTIFY</h3><p>Lee el material al vuelo. Plástico, papel, vidrio o metal.</p><span class="card-tag">FOCUS MODE</span></article>
+        <article class="mechanic-card card-coral" data-sfx="great"><span class="card-number">02</span><div class="card-icon">↯</div><h3>FEEL THE DROP</h3><p>Todo cae en el pulso. Toca justo cuando el beat golpea.</p><span class="card-tag">120 BPM</span></article>
+        <article class="mechanic-card card-mint" data-sfx="recycle"><span class="card-number">03</span><div class="card-icon">♻</div><h3>BUILD A COMBO</h3><p>Encadena aciertos. La ciudad cambia cuando tu streak crece.</p><span class="card-tag">∞ STREAK</span></article>
+      </div>
+      <div class="pop-word" id="pop-word" aria-live="polite"></div>
+    </section>
+
+    <section class="levels-section" id="levels" aria-labelledby="levels-title">
+      <div class="section-shell levels-inner">
+        <div class="levels-intro"><p class="eyebrow">02 / SELECT YOUR TRACK</p><h2 id="levels-title">CHOOSE<br>YOUR <span>VIBE.</span></h2><p>Sube el volumen. Cada track transforma un rincón distinto de la ciudad.</p><div class="carousel-controls"><button class="icon-button" id="prev-track" aria-label="Track anterior">←</button><span id="track-count">01 / 03</span><button class="icon-button" id="next-track" aria-label="Siguiente track">→</button></div></div>
+        <div class="track-player"><div class="track-topline"><span id="track-genre">GARAGE GROOVE</span><span id="track-bpm">120 BPM</span></div><div class="track-art" id="track-art"><div class="track-sticker">NEW<br>DROP</div><span id="track-index">01</span><div class="waveform" id="waveform" aria-hidden="true"></div></div><div class="track-info"><div><h3 id="track-name">CAN IT!</h3><p id="track-desc">Metal District / 02:48</p></div><button class="play-button" id="play-track" type="button" aria-label="Reproducir preview">▶</button></div><div class="track-progress"><span></span></div></div>
+      </div>
+    </section>
+
+    <section class="section-shell impact-section" id="impact" aria-labelledby="impact-title">
+      <div class="impact-copy"><p class="eyebrow">03 / THE BIGGER PICTURE</p><h2 id="impact-title">SMALL<br><span>MOVES.</span><br>BIG RIPPLE.</h2><p>Reciclar no es el final del juego. Es el power-up que mantiene el mundo en partida.</p><button class="comic-button comic-button--coral" id="fact-button" type="button"><span>OTRO DATO</span><b>↻</b></button></div>
+      <div class="stat-board"><div class="stat-main"><strong id="stat-number">79%</strong><span>de los residuos del océano<br>podrían evitarse con mejores<br>hábitos de consumo.</span></div><div class="stat-grid"><div><b>01</b><strong>4.8B</strong><span>toneladas de residuos<br>producidas cada año</span></div><div><b>02</b><strong>∞</strong><span>veces que el aluminio<br>puede volver al beat</span></div></div><div class="sticker-arrow">YOUR<br>MOVE<br>→</div></div>
+    </section>
+
+    <section class="secret-tease section-shell" aria-label="Área secreta"><div class="secret-crack" id="secret-crack" role="button" tabindex="0" aria-label="Grieta misteriosa, descubrir secreto">//</div><p>Hay algo detrás de la grieta.</p><small>tap tap tap</small></section>
+  </main>
+
+  <footer class="site-footer"><div class="footer-brand">RB<span>© 2025</span></div><p>MADE WITH RHYTHM<br>FOR A CLEANER WORLD</p><div class="footer-links"><a href="#top">BACK TO TOP ↑</a><button id="footer-secret" type="button">?</button></div></footer>
+
+  <dialog class="demo-dialog" id="demo-dialog"><button class="dialog-close" id="close-dialog" aria-label="Cerrar">×</button><p class="eyebrow">DEMO MODE / 120 BPM</p><h2>DROP ON<br>THE BEAT<span>!</span></h2><p>Golpea cualquier tecla cuando el círculo toque el aro. Encadena 10 para entrar en la clasificación.</p><div class="beat-ring" id="beat-ring"><span>READY?</span></div><div class="demo-score"><span>SCORE <b id="demo-score">000000</b></span><span>COMBO <b id="demo-combo">0</b></span></div><button class="comic-button comic-button--yellow" id="start-demo" type="button"><span>START RUN</span><b>↗</b></button></dialog>
+  <div class="backroom-overlay" id="backroom" aria-hidden="true"><div class="backroom-content"><button class="dialog-close" id="close-backroom" aria-label="Cerrar">×</button><p class="eyebrow">HIDDEN ROOM // 04:04</p><h2>THE<br>BACK<span>ROOMS</span></h2><p>El beat sigue sonando, pero nadie recuerda haberlo puesto.</p><div class="liminal-door"><span>EXIT?</span></div><button class="comic-button comic-button--outline" id="backroom-beat" type="button"><span>TOCA EL SILENCIO</span><b>♪</b></button></div></div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
