@@ -90,5 +90,4 @@
   document.querySelectorAll('form[aria-disabled="true"]').forEach((form) => {
     form.addEventListener('submit', (e) => e.preventDefault());
   });
-
-  /* =
+})();
