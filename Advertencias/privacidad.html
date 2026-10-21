@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aviso de privacidad — Recycle Beats</title>
+  <meta name="description" content="Este aviso describe de manera preliminar el tratamiento de información en el sitio de Recycle Beats. Debe revisarse y completarse antes de publicar el sitio en un servidor definitivo." />
+  <meta name="theme-color" content="#EDEDED" />
+  <link rel="icon" type="image/svg+xml" href="../icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <!-- FILTROS SVG PARA EL EFECTO DE LÍNEA TEMBLOROSA (WOBBLE) -->
+  <svg class="rb-svg-defs" aria-hidden="true" focusable="false" width="0" height="0">
+    <defs>
+      <filter id="rb-wobble-soft" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="4" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="rb-wobble-strong" x="-8%" y="-8%" width="116%" height="116%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="8" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <a class="rb-skip" href="#contenido">Saltar al contenido</a>
+  
+  <header class="rb-navbar" id="rb-navbar">
+    <div class="rb-navbar__inner">
+      <a class="rb-brand" href="../index.html#inicio" aria-label="Ir al inicio">
+        <span class="rb-brand__mark" aria-hidden="true">RB</span>
+        <span class="rb-brand__name">Recycle&nbsp;Beats</span>
+      </a>
+
+      <button
+        class="rb-navbar__toggle"
+        id="rb-nav-toggle"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="rb-nav-menu"
+      >
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="rb-navbar__nav" id="rb-nav-menu" aria-label="Navegación principal">
+        <ul>
+          <li><a href="../index.html#inicio">Inicio</a></li>
+          <li><a href="../index.html#el-juego">El juego</a></li>
+          <li><a href="../index.html#caracteristicas">Características</a></li>
+          <li><a href="../index.html#galeria">Galería</a></li>
+          <li><a href="../index.html#tutorial">Tutorial</a></li>
+          <li><a href="../index.html#desarrollo">Desarrollo</a></li>
+          <li><a href="../index.html#equipo">Equipo</a></li>
+          <li><a href="../index.html#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      
+      <a class="rb-btn rb-btn--amarillo rb-navbar__cta" href="../index.html#descarga">Descargar</a>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="rb-section rb-section--papel" aria-labelledby="legal-title">
+      <div class="rb-container">
+        <p class="rb-eyebrow">Recycle Beats · Privacidad</p>
+        <h1 class="rb-title rb-title--lg" id="legal-title">Aviso de privacidad</h1>
+        <p style="margin-bottom: 2rem; max-width: 800px;">Este aviso describe de manera preliminar el tratamiento de información en el sitio de Recycle Beats. Debe revisarse y completarse antes de publicar el sitio en un servidor definitivo.</p>
+        
+        <div class="rb-grid-3" style="margin-bottom: 2.5rem;">
+          
+          <section class="rb-card rb-wobble rb-card--legal">
+            <h2>Datos enviados por usuarios</h2>
+            <p>El formulario de comentarios que aparece en el sitio está deshabilitado y no permite enviar mensajes en su estado actual. No introduzcas información personal en campos de prueba ni compartas datos sensibles por medios no habilitados.</p>
+          </section>
+          
+          <section class="rb-card rb-wobble rb-card--legal">
+            <h2>Conexiones y servicios externos</h2>
+            <p>El sitio carga la tipografía Fredoka mediante Google Fonts. Al solicitar recursos externos, el navegador puede intercambiar datos técnicos de conexión con el proveedor correspondiente; consulta las políticas del servicio externo para conocer sus condiciones.</p>
+          </section>
+          
+          <section class="rb-card rb-wobble rb-card--legal">
+            <h2>Almacenamiento y seguimiento</h2>
+            <p>No se ha confirmado que el sitio utilice cuentas de usuario, analítica, cookies propias, publicidad personalizada ni una base de datos. Antes de afirmar que no se recopilan datos, el equipo debe revisar el código, el alojamiento y todos los servicios conectados. Si se incorporan estas funciones, el aviso deberá actualizarse para explicar qué datos se recaban, con qué finalidad, durante cuánto tiempo y cómo ejercer los derechos aplicables.</p>
+          </section>
+          
+          <section class="rb-card rb-wobble rb-card--legal">
+            <h2>Contacto y revisión</h2>
+            <p>El correo de contacto todavía está pendiente de completar en el sitio. Antes de publicar este aviso, el equipo debe agregar un medio de contacto válido y verificar que el texto corresponda al funcionamiento real del sitio y a la normativa aplicable.</p>
+          </section>
+
+        </div>
+        
+        <p class="rb-muted">Última revisión: octubre de 2026. Este contenido debe validarse con el equipo antes de la publicación definitiva, especialmente cuando dependa de licencias, servicios conectados o decisiones aún no confirmadas.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rb-footer" aria-label="Pie de página">
+    <div class="rb-footer__bottom">
+      <p>© <span id="rb-year">2026</span> Recycle Beats.</p>
+    </div>
+  </footer>
+  <script src="../site.js" defer></script>
+</body>
+</html>

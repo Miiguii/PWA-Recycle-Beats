@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Créditos — Recycle Beats</title>
+  <meta name="description" content="Recycle Beats es un proyecto académico de un videojuego educativo de ritmo musical que busca promover la clasificación de residuos y la conciencia ambiental." />
+  <meta name="theme-color" content="#EDEDED" />
+  <link rel="icon" type="image/svg+xml" href="../icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <!-- FILTROS SVG PARA EL EFECTO DE LÍNEA TEMBLOROSA (WOBBLE) -->
+  <svg class="rb-svg-defs" aria-hidden="true" focusable="false" width="0" height="0">
+    <defs>
+      <filter id="rb-wobble-soft" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="4" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="rb-wobble-strong" x="-8%" y="-8%" width="116%" height="116%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="8" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <a class="rb-skip" href="#contenido">Saltar al contenido</a>
+  
+  <header class="rb-navbar" id="rb-navbar">
+    <div class="rb-navbar__inner">
+      <a class="rb-brand" href="../index.html#inicio" aria-label="Ir al inicio">
+        <span class="rb-brand__mark" aria-hidden="true">RB</span>
+        <span class="rb-brand__name">Recycle&nbsp;Beats</span>
+      </a>
+
+      <button
+        class="rb-navbar__toggle"
+        id="rb-nav-toggle"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="rb-nav-menu"
+      >
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="rb-navbar__nav" id="rb-nav-menu" aria-label="Navegación principal">
+        <ul>
+          <li><a href="../index.html#inicio">Inicio</a></li>
+          <li><a href="../index.html#el-juego">El juego</a></li>
+          <li><a href="../index.html#caracteristicas">Características</a></li>
+          <li><a href="../index.html#galeria">Galería</a></li>
+          <li><a href="../index.html#tutorial">Tutorial</a></li>
+          <li><a href="../index.html#desarrollo">Desarrollo</a></li>
+          <li><a href="../index.html#equipo">Equipo</a></li>
+          <li><a href="../index.html#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      
+      <a class="rb-btn rb-btn--amarillo rb-navbar__cta" href="../index.html#descarga">Descargar</a>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="rb-section rb-section--papel" aria-labelledby="legal-title">
+      <div class="rb-container">
+        <p class="rb-eyebrow">Recycle Beats · Créditos</p>
+        <h1 class="rb-title rb-title--lg" id="legal-title">Créditos</h1>
+        <p style="margin-bottom: 2rem; max-width: 800px;">Recycle Beats es un proyecto académico de un videojuego educativo de ritmo musical que busca promover la clasificación de residuos y la conciencia ambiental.</p>
+        
+        <div class="rb-grid-3" style="margin-bottom: 2.5rem;">
+          
+          <section class="rb-card rb-wobble rb-card--legal">
+            <h2>Equipo del proyecto</h2>
+            <p>Miguel Salguero Rosas, América Alarcon Ponce y Yaretzi Rubio Martínez. Las responsabilidades y aportaciones individuales se describen de forma general en la sección Equipo del sitio; cualquier atribución específica deberá validarse con el equipo antes de la publicación definitiva.</p>
+          </section>
+          
+          <section class="rb-card rb-wobble rb-card--legal">
+            <h2>Desarrollo y herramientas</h2>
+            <p>El proyecto se trabaja con Unity y C#. También se han identificado Blender, Audacity y Visual Studio Code como herramientas utilizadas durante el desarrollo. La mención de una herramienta no implica que sus desarrolladores patrocinen o respalden el proyecto.</p>
+          </section>
+          
+          <section class="rb-card rb-wobble rb-card--legal">
+            <h2>Recursos de terceros</h2>
+            <p>Los nombres, logotipos, tipografías, imágenes, modelos, sonidos, música y demás materiales de terceros deberán reconocerse aquí cuando corresponda, indicando autoría, fuente y licencia aplicable. La lista definitiva de recursos externos aún debe ser revisada por el equipo; no se atribuye autoría ni licencia sin verificar la fuente original.</p>
+          </section>
+          
+          <section class="rb-card rb-wobble rb-card--legal">
+            <h2>Agradecimiento</h2>
+            <p>Se reconoce el trabajo de quienes contribuyen al diseño, programación, creación de niveles, música, pruebas y documentación del videojuego.</p>
+          </section>
+
+        </div>
+        
+        <p class="rb-muted">Última revisión: octubre de 2026. Este contenido debe validarse con el equipo antes de la publicación definitiva, especialmente cuando dependa de licencias, servicios conectados o decisiones aún no confirmadas.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rb-footer" aria-label="Pie de página">
+    <div class="rb-footer__bottom">
+      <p>© <span id="rb-year">2026</span> Recycle Beats.</p>
+    </div>
+  </footer>
+  <script src="../site.js" defer></script>
+</body>
+</html>

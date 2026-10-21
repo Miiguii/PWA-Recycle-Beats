@@ -1,84 +1,616 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f4e9d5">
-  <meta name="description" content="Recicle Beats: rhythm, recycling and comic-book chaos.">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>RECICLE BEATS // Rhythm for the planet</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Recycle Beats — Sitio oficial</title>
+  <meta name="description" content="Recycle Beats: videojuego musical educativo sobre reciclaje. Aprende a clasificar residuos al ritmo de la música." />
+
+  <meta name="theme-color" content="#EDEDED" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+
+  <!-- Fredoka -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <canvas id="particle-canvas" aria-hidden="true"></canvas>
-  <div class="grain" aria-hidden="true"></div>
-  <header class="site-header">
-    <a class="brand" href="#top" aria-label="Recicle Beats inicio"><span class="brand-mark">RB</span><span>RECICLE<br><b>BEATS</b></span></a>
-    <nav class="main-nav" aria-label="Navegación principal">
-      <a href="#gameplay">Mecánicas</a><a href="#levels">Tracks</a><a href="#impact">Impacto</a>
-    </nav>
-    <button class="icon-button" id="sound-toggle" type="button" aria-label="Activar sonido" aria-pressed="false">♪</button>
+
+  <!-- ============================================================
+       FILTROS SVG PARA EL EFECTO "WOBBLE"
+       ============================================================ -->
+  <svg class="rb-svg-defs" aria-hidden="true" focusable="false" width="0" height="0">
+    <defs>
+      <filter id="rb-wobble-soft" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="4" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="rb-wobble-strong" x="-8%" y="-8%" width="116%" height="116%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="8" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <a class="rb-skip" href="#inicio">Saltar al contenido</a>
+
+  <!-- ============================================================
+       NAVBAR
+       ============================================================ -->
+  <header class="rb-navbar" id="rb-navbar">
+    <div class="rb-navbar__inner">
+      <a class="rb-brand" href="#inicio" aria-label="Ir al inicio">
+        <span class="rb-brand__mark" aria-hidden="true">RB</span>
+        <span class="rb-brand__name">Recycle&nbsp;Beats</span>
+      </a>
+
+      <button
+        class="rb-navbar__toggle"
+        id="rb-nav-toggle"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="rb-nav-menu"
+      >
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="rb-navbar__nav" id="rb-nav-menu" aria-label="Navegación principal">
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#el-juego">El juego</a></li>
+          <li><a href="#caracteristicas">Características</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#tutorial">Tutorial</a></li>
+          <li><a href="#desarrollo">Desarrollo</a></li>
+          <li><a href="#equipo">Equipo</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <!-- Botón fuera del nav para que quede a la derecha -->
+      <a class="rb-btn rb-btn--amarillo rb-navbar__cta" href="#descarga">Descargar</a>
+    </div>
   </header>
 
-  <main id="top">
-    <section class="hero section-shell" aria-labelledby="hero-title">
-      <div class="hero-copy reveal">
-        <p class="eyebrow"><span class="signal-dot"></span> PLAYER 01 / PLANET EARTH</p>
-        <h1 id="hero-title">BEAT<br><em>THE</em><br>WASTE<span class="bang">!</span></h1>
-        <p class="hero-lede">El planeta puso el beat.<br>Tu combo decide el futuro.</p>
-        <div class="hero-actions">
-          <button class="comic-button comic-button--yellow" id="demo-button" type="button"><span>JUGAR DEMO</span><b>↗</b></button>
-          <button class="comic-button comic-button--outline" id="install-button" type="button"><span>DESCARGAR PWA</span><b>↓</b></button>
+  <main id="rb-main">
+
+    <!-- ============================================================
+         SECCIÓN 01 · PORTADA
+         ============================================================ -->
+    <section class="rb-hero" id="inicio" aria-labelledby="hero-title">
+      <span class="rb-hero__tube" aria-hidden="true"></span>
+
+      <div class="rb-hero__content">
+        <p class="rb-eyebrow">Educación ambiental</p>
+
+        <h1 class="rb-title rb-title--xl" id="hero-title">Recycle&nbsp;Beats</h1>
+
+        <p class="rb-hero__tagline" data-editable="tagline">
+          Aprende a reciclar al ritmo de la música
+        </p>
+
+        <div class="rb-hero__actions">
+          <a class="rb-btn rb-btn--amarillo" href="#el-juego">Conocer el juego</a>
+          <a class="rb-btn rb-btn--azul" href="#descarga">Ir a descarga</a>
         </div>
-        <div class="hero-meta"><span>02:48</span><i></i><span>120 BPM</span><i></i><span>∞ COMBO</span></div>
       </div>
-      <div class="hero-art reveal reveal-delay" aria-label="Ilustración de una lata de refresco convertida en personaje musical">
-        <div class="burst burst-top">READY<br><small>TO SORT?</small></div>
-        <div class="character-stage"><div class="speed-lines"></div><div class="hero-character"><div class="can-tab"></div><div class="can-face"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth"></span></div><div class="can-label">R<br><small>BEAT</small></div><div class="can-arm arm-left"></div><div class="can-arm arm-right"></div></div><div class="vinyl"></div></div>
-        <div class="burst burst-bottom">RECYCLE<br><small>OR REPEAT!</small></div>
-        <p class="art-caption">SCENE 01: THE SORTING YARD</p>
-      </div>
-      <div class="scroll-cue">SCROLL TO DROP <span>↓</span></div>
+
+      <figure class="rb-polaroid" aria-label="Captura del juego pegada con cinta adhesiva">
+        <span class="rb-tape rb-tape--tl" aria-hidden="true"></span>
+        <span class="rb-tape rb-tape--br" aria-hidden="true"></span>
+
+        <div class="rb-placeholder rb-placeholder--polaroid" role="region" aria-label="Gameplay de Recycle Beats">
+          <video src="assets/video/Video_1.mp4" autoplay loop muted playsinline title="Gameplay de Recycle Beats">
+            Tu navegador no soporta el elemento de video.
+          </video>
+        </div>
+        <figcaption>Así se ve mientras juegas</figcaption>
+      </figure>
     </section>
 
-    <section class="marquee" aria-label="Mensaje de impacto"><div>♻ RECYCLE ON THE BEAT <span>✦</span> SAVE THE DAY <span>✦</span> RECYCLE ON THE BEAT <span>✦</span> SAVE THE DAY <span>✦</span></div></section>
+    <!-- ============================================================
+         SECCIÓN 02 · EL JUEGO
+         ============================================================ -->
+    <section class="rb-section rb-section--papel" id="el-juego" aria-labelledby="el-juego-title">
+      <div class="rb-container">
+        <p class="rb-eyebrow">El juego</p>
+        <h2 class="rb-title rb-title--lg" id="el-juego-title">¿Qué es Recycle&nbsp;Beats?</h2>
 
-    <section class="section-shell gameplay-section" id="gameplay" aria-labelledby="gameplay-title">
-      <div class="section-heading"><p class="eyebrow">01 / HOW TO PLAY</p><h2 id="gameplay-title">SORT IT.<br><span>DROP IT.</span><br>FEEL IT.</h2><p class="section-note">Cada objeto tiene su ritmo.<br>Encuentra el contenedor. Hazlo perfecto.</p></div>
-      <div class="mechanic-grid">
-        <article class="mechanic-card card-yellow" data-sfx="perfect"><span class="card-number">01</span><div class="card-icon">♧</div><h3>IDENTIFY</h3><p>Lee el material al vuelo. Plástico, papel, vidrio o metal.</p><span class="card-tag">FOCUS MODE</span></article>
-        <article class="mechanic-card card-coral" data-sfx="great"><span class="card-number">02</span><div class="card-icon">↯</div><h3>FEEL THE DROP</h3><p>Todo cae en el pulso. Toca justo cuando el beat golpea.</p><span class="card-tag">120 BPM</span></article>
-        <article class="mechanic-card card-mint" data-sfx="recycle"><span class="card-number">03</span><div class="card-icon">♻</div><h3>BUILD A COMBO</h3><p>Encadena aciertos. La ciudad cambia cuando tu streak crece.</p><span class="card-tag">∞ STREAK</span></article>
+        <div class="rb-grid-2">
+          <article class="rb-card rb-wobble">
+            <h3>Historia y contexto</h3>
+            <p>
+              Recycle Beats nació como un proyecto académico con una idea clara: demostrar que 
+              los videojuegos y la música pueden ser herramientas para transmitir información 
+              de manera dinámica.
+            </p>
+            <p>
+              Tras analizar varias alternativas, surgió la idea de una mecánica sencilla basada 
+              en colores: los niños aprenden a identificar residuos mientras ponen a prueba sus 
+              reflejos.
+            </p>
+
+            <h3>Objetivo principal</h3>
+            <p>
+              Desarrollar un videojuego interactivo que promueva la conciencia ambiental y 
+              fomentar el aprendizaje sobre el reciclaje y la reducción de residuos, 
+              mediante dinámicas didácticas y actividades lúdicas que incentiven prácticas 
+              sostenibles en los usuarios.
+            </p>
+
+            <h3>El problema que busca resolver</h3>
+            <p>
+              La concientización de la clasificación y reciclaje de basura, al desarrollar 
+              un videojuego interactivo que fomente la educación ambiental mediante dinámicas de juego 
+              enfocadas en el reciclaje y la reducción de residuos así como la enseñanza de estas 
+              prácticas como hábito diario.
+            </p>
+
+            <h3>Propuesta de valor</h3>
+            <p>
+              Combinar música y dinámicas de videojuego con contenidos educativos sobre el
+              cuidado del planeta. La intención es que el aprendizaje no se perciba como una
+              obligación, sino como parte de una experiencia divertida e interactiva.
+            </p>
+          </article>
+
+          <aside class="rb-card rb-card--ficha rb-wobble">
+            <h3>Ficha rápida</h3>
+            <ul class="rb-factsheet">
+              <li><span>Género</span><strong>Videojuego de ritmo musical educativo</strong></li>
+              <li><span>Temática</span><strong>Educación ambiental</strong></li>
+              <li><span>Público</span><strong>Para todo público. Categoría E</strong></li>
+              <li><span>Plataforma</span><strong>PC (Windows)</strong></li>
+              <li><span>Motor</span><strong>Unity</strong></li>
+              <li><span>Idioma</span><strong>Español</strong></li>
+              <li><span>Estado</span><strong>En desarrollo</strong></li>
+            </ul>
+          </aside>
+        </div>
       </div>
-      <div class="pop-word" id="pop-word" aria-live="polite"></div>
     </section>
 
-    <section class="levels-section" id="levels" aria-labelledby="levels-title">
-      <div class="section-shell levels-inner">
-        <div class="levels-intro"><p class="eyebrow">02 / SELECT YOUR TRACK</p><h2 id="levels-title">CHOOSE<br>YOUR <span>VIBE.</span></h2><p>Sube el volumen. Cada track transforma un rincón distinto de la ciudad.</p><div class="carousel-controls"><button class="icon-button" id="prev-track" aria-label="Track anterior">←</button><span id="track-count">01 / 03</span><button class="icon-button" id="next-track" aria-label="Siguiente track">→</button></div></div>
-        <div class="track-player"><div class="track-topline"><span id="track-genre">GARAGE GROOVE</span><span id="track-bpm">120 BPM</span></div><div class="track-art" id="track-art"><div class="track-sticker">NEW<br>DROP</div><span id="track-index">01</span><div class="waveform" id="waveform" aria-hidden="true"></div></div><div class="track-info"><div><h3 id="track-name">CAN IT!</h3><p id="track-desc">Metal District / 02:48</p></div><button class="play-button" id="play-track" type="button" aria-label="Reproducir preview">▶</button></div><div class="track-progress"><span></span></div></div>
+    <!-- ============================================================
+         SECCIÓN 03 · CARACTERÍSTICAS
+         ============================================================ -->
+    <section class="rb-section" id="caracteristicas" aria-labelledby="caracteristicas-title">
+      <div class="rb-container">
+        <p class="rb-eyebrow">Características</p>
+        <h2 class="rb-title rb-title--lg" id="caracteristicas-title">Lo que hace único al juego</h2>
+
+        <div class="rb-grid-3">
+          <article class="rb-card rb-card--feature rb-wobble">
+            <span class="rb-card__icon" aria-hidden="true">🎮</span>
+            <h3>Mecánicas principales</h3>
+            <p>
+              Los residuos avanzan por una banda transportadora. El jugador identifica el color
+              del objeto y presiona la tecla correspondiente. Si acierta, acumula puntos; si
+              falla, recibe una penalización.
+            </p>
+          </article>
+
+          <article class="rb-card rb-card--feature rb-wobble">
+            <span class="rb-card__icon" aria-hidden="true">🎵</span>
+            <h3>Elementos musicales</h3>
+            <p>
+              Canciones originales, retos sincronizados con el ritmo y niveles con distinta
+              velocidad. La música acompaña cada acción del jugador para hacer la experiencia
+              más dinámica.
+            </p>
+          </article>
+
+          <article class="rb-card rb-card--feature rb-wobble">
+            <span class="rb-card__icon" aria-hidden="true">🏆</span>
+            <h3>Puntuaciones y recompensas</h3>
+            <p>
+              Sistema de puntos, combos y efectos visuales que ofrecen retroalimentación
+              inmediata al jugador. Pantallas de victoria y derrota según el desempeño.
+            </p>
+          </article>
+
+          <article class="rb-card rb-card--feature rb-wobble">
+            <span class="rb-card__icon" aria-hidden="true">♻️</span>
+            <h3>Aprendizaje ambiental</h3>
+            <p>
+              El jugador aprende a identificar y clasificar residuos mientras juega, fomentando
+              hábitos responsables con el medio ambiente desde edades tempranas.
+            </p>
+          </article>
+
+          <article class="rb-card rb-card--feature rb-wobble">
+            <span class="rb-card__icon" aria-hidden="true">⚙️</span>
+            <h3>Opciones y accesibilidad</h3>
+            <p>
+              Menú de configuración para ajustar volumen, efectos de sonido, resolución y
+              controles. Sistema de pausa y distintos niveles de dificultad.
+            </p>
+          </article>
+
+          <article class="rb-card rb-card--feature rb-card--soon rb-wobble">
+            <span class="rb-card__icon" aria-hidden="true">＋</span>
+            <h3>Próximamente</h3>
+            <p>HOLA</p>
+            <p>Adiós</p>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section class="section-shell impact-section" id="impact" aria-labelledby="impact-title">
-      <div class="impact-copy"><p class="eyebrow">03 / THE BIGGER PICTURE</p><h2 id="impact-title">SMALL<br><span>MOVES.</span><br>BIG RIPPLE.</h2><p>Reciclar no es el final del juego. Es el power-up que mantiene el mundo en partida.</p><button class="comic-button comic-button--coral" id="fact-button" type="button"><span>OTRO DATO</span><b>↻</b></button></div>
-      <div class="stat-board"><div class="stat-main"><strong id="stat-number">79%</strong><span>de los residuos del océano<br>podrían evitarse con mejores<br>hábitos de consumo.</span></div><div class="stat-grid"><div><b>01</b><strong>4.8B</strong><span>toneladas de residuos<br>producidas cada año</span></div><div><b>02</b><strong>∞</strong><span>veces que el aluminio<br>puede volver al beat</span></div></div><div class="sticker-arrow">YOUR<br>MOVE<br>→</div></div>
+    <!-- ============================================================
+         SECCIÓN 04 · TRÁILER
+         ============================================================ -->
+    <section class="rb-section rb-section--papel" id="trailer" aria-labelledby="trailer-title">
+      <div class="rb-container">
+        <p class="rb-eyebrow">Tráiler</p>
+        <h2 class="rb-title rb-title--lg" id="trailer-title">Mira el tráiler</h2>
+
+        <div class="rb-video-frame rb-wobble">
+          <div class="rb-placeholder rb-placeholder--video" role="img"
+               aria-label="Tráiler pendiente de publicación">
+            <span class="rb-placeholder__tag">PRÓXIMAMENTE</span>
+            <span class="rb-placeholder__path">assets/video/trailer.mp4</span>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="secret-tease section-shell" aria-label="Área secreta"><div class="secret-crack" id="secret-crack" role="button" tabindex="0" aria-label="Grieta misteriosa, descubrir secreto">//</div><p>Hay algo detrás de la grieta.</p><small>tap tap tap</small></section>
+    <!-- ============================================================
+         SECCIÓN 05 · GALERÍA
+         ============================================================ -->
+    <section class="rb-section" id="galeria" aria-labelledby="galeria-title">
+      <div class="rb-container">
+        <p class="rb-eyebrow">Galería</p>
+        <h2 class="rb-title rb-title--lg" id="galeria-title">Escenas del juego</h2>
+
+        <div class="rb-gallery">
+          <figure class="rb-polaroid rb-polaroid--sm">
+            <span class="rb-tape rb-tape--tl" aria-hidden="true"></span>
+            <div class="rb-placeholder rb-placeholder--polaroid" role="img" aria-label="Captura pendiente: menú principal">
+              <img src="assets/images/screenshots/Image_3.png" alt="Captura de pantalla 1 del juego" loading="lazy" />
+            </div>
+            <figcaption>Menú principal</figcaption>
+          </figure>
+
+          <figure class="rb-polaroid rb-polaroid--sm">
+            <span class="rb-tape rb-tape--tr" aria-hidden="true"></span>
+            <div class="rb-placeholder rb-placeholder--polaroid" role="img" aria-label="Captura pendiente: jugabilidad">
+              <img src="assets/images/screenshots/Image_4.png" alt="Captura de pantalla 1 del juego" loading="lazy" />
+            </div>
+            <figcaption>Jugabilidad</figcaption>
+          </figure>
+
+          <figure class="rb-polaroid rb-polaroid--sm">
+            <span class="rb-tape rb-tape--tl" aria-hidden="true"></span>
+            <div class="rb-placeholder rb-placeholder--polaroid" role="img" aria-label="Captura pendiente: opciones">
+              <img src="assets/images/screenshots/Image_1.png" alt="Captura de pantalla 1 del juego" loading="lazy" />
+            </div>
+            <figcaption>Opciones</figcaption>
+          </figure>
+
+          <figure class="rb-polaroid rb-polaroid--sm">
+            <span class="rb-tape rb-tape--tr" aria-hidden="true"></span>
+            <div class="rb-placeholder rb-placeholder--polaroid" role="img" aria-label="Captura pendiente: tabla de puntuación">
+              <img src="assets/images/screenshots/Image_2.png" alt="Captura de pantalla 1 del juego" loading="lazy" />
+            </div>
+            <figcaption>Tabla de puntuación</figcaption>
+          </figure>
+
+          <figure class="rb-polaroid rb-polaroid--sm">
+            <span class="rb-tape rb-tape--tl" aria-hidden="true"></span>
+            <div class="rb-placeholder rb-placeholder--polaroid" role="img" aria-label="Captura pendiente: escena Backrooms">
+              <img src="assets/images/screenshots/Image_5.jpeg" alt="Captura de pantalla 1 del juego" loading="lazy" />
+            </div>
+            <figcaption>Menú Niveles</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN 06 · TUTORIAL
+         ============================================================ -->
+    <section class="rb-section rb-section--papel" id="tutorial" aria-labelledby="tutorial-title">
+      <div class="rb-container">
+        <p class="rb-eyebrow">Tutorial</p>
+        <h2 class="rb-title rb-title--lg" id="tutorial-title">Cómo jugar</h2>
+
+        <div class="rb-grid-2">
+          <ol class="rb-steps">
+            <li>
+              <strong>Paso 1.</strong> En el menú principal, presiona el botón <strong>Play</strong> para comenzar.
+            </li>
+            <li>
+              <strong>Paso 2.</strong> Si es tu primera vez jugando, puedes seleccionar la opción de <strong>Tutorial</strong> para aprender cómo clasificar los residuos y dominar los controles antes de empezar.
+            </li>
+            <li>
+              <strong>Paso 3.</strong> Al darle a jugar, se abrirá un escenario de selección. Elige uno de los <strong>3 entornos disponibles</strong>.
+            </li>
+            <li>
+              <strong>Paso 4.</strong> Cada escenario cuenta con <strong>3 niveles</strong> con distintos grados de dificultad. Selecciona el que quieras jugar.
+            </li>
+            <li>
+              <strong>Paso 5.</strong> Observa la banda transportadora: aparecerán residuos de distintos colores. Identifica el color y presiona la tecla correspondiente antes de que llegue al final.
+            </li>
+            <li>
+              <strong>Paso 6.</strong> <strong>¡Cuidado con los errores!</strong> Si aciertas, sumas puntos. Si fallas, <strong>se te restarán puntos</strong>. La partida terminará cuando te quedes sin puntos o falles repetidamente. ¡Intenta lograr el mayor puntaje posible!
+            </li>
+          </ol>
+
+          <aside class="rb-card rb-card--controls rb-wobble">
+            <h3>Controles de teclado</h3>
+
+            <div class="rb-dpad" aria-hidden="true">
+              <span class="rb-dpad__key rb-dpad__key--up">↑</span>
+              <span class="rb-dpad__key rb-dpad__key--left">←</span>
+              <span class="rb-dpad__key rb-dpad__key--right">→</span>
+            </div>
+
+            <ul class="rb-controls">
+              <li><kbd>A</kbd><span>    Clasificar residuo (color Rojo)</span></li>
+              <li><kbd>W</kbd><span>    Clasificar residuo (color Amarillo)</span></li>
+              <li><kbd>D</kbd><span>    Clasificar residuo (color Azul)</span></li>
+              <li><kbd>Esc</kbd><span>    Pausar / volver al menú</span></li>
+            </ul>
+
+            <p class="rb-muted">
+              Las teclas W, A y D corresponden a los tres colores establecidos dentro del
+              juego.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN 07 · DESCARGA + REQUISITOS + INSTALACIÓN
+         ============================================================ -->
+    <section class="rb-section" id="descarga" aria-labelledby="descarga-title">
+      <div class="rb-container">
+        <p class="rb-eyebrow">Sección 06 · Descarga</p>
+        <h2 class="rb-title rb-title--lg" id="descarga-title">Descarga el juego</h2>
+
+        <div class="rb-download">
+          <div class="rb-card rb-card--download rb-wobble-strong">
+            <span class="rb-badge rb-badge--soon">PRÓXIMAMENTE</span>
+            <h3>Versión <span data-editable="version">En desarrollo</span></h3>
+            <ul class="rb-factsheet">
+              <li><span>Plataforma</span><strong>PC (Windows)</strong></li>
+              <li><span>Motor</span><strong>Unity</strong></li>
+              <li><span>Tamaño</span><strong>[EDITAR]</strong></li>
+              <li><span>Fecha</span><strong>[EDITAR]</strong></li>
+            </ul>
+            <span class="rb-btn rb-btn--disabled" aria-disabled="true" role="link">
+              Descarga no disponible
+            </span>
+            <p class="rb-muted">
+              El videojuego todavía está en desarrollo. La descarga estará disponible cuando
+              se publique la primera versión estable.
+            </p>
+          </div>
+
+          <div>
+            <details class="rb-accordion rb-wobble" open>
+              <summary>Requisitos del sistema</summary>
+              <ul class="rb-factsheet">
+                <li><span>Sistema operativo</span><strong>Windows 10 o superior</strong></li>
+                <li><span>Procesador</span><strong>Intel CORE i5</strong></li>
+                <li><span>Memoria RAM</span><strong>16 GB</strong></li>
+                <li><span>Almacenamiento</span><strong>500 MB</strong></li>
+                <li><span>Gráficos</span><strong>[EDITAR]</strong></li>
+              </ul>
+              <p class="rb-muted">
+                Los requisitos definitivos se publicarán junto con la primera versión descargable.
+              </p>
+            </details>
+
+            <details class="rb-accordion rb-wobble">
+              <summary>Cómo instalar</summary>
+              <ol class="rb-steps">
+                <li>Descarga el archivo del videojuego desde esta página (cuando esté disponible).</li>
+                <li>Extrae el contenido en una carpeta de tu elección.</li>
+                <li>Ejecuta el archivo principal del juego.</li>
+                <li>Selecciona el nivel y comienza a jugar.</li>
+              </ol>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN 08 · DESARROLLO
+         ============================================================ -->
+    <section class="rb-section rb-section--papel" id="desarrollo" aria-labelledby="desarrollo-title">
+      <div class="rb-container">
+        <p class="rb-eyebrow">Desarrollo</p>
+        <h2 class="rb-title rb-title--lg" id="desarrollo-title">Bitácora del proyecto</h2>
+
+        <ol class="rb-timeline">
+          <li class="rb-timeline__item">
+            <span class="rb-timeline__dot" aria-hidden="true"></span>
+            <div class="rb-card rb-wobble">
+              <p class="rb-timeline__date">13/05/26</p>
+              <h3>Sprint 1</h3>
+              <p>Escenarios de Menú, Opciones y funcionalidad de Tabla de puntajes.</p>
+            </div>
+          </li>
+          <li class="rb-timeline__item">
+            <span class="rb-timeline__dot" aria-hidden="true"></span>
+            <div class="rb-card rb-wobble">
+              <p class="rb-timeline__date">20/07/26</p>
+              <h3>Sprint 2</h3>
+              <p>Escenario y Funcionalidad de Nivel 1.</p>
+            </div>
+          </li>
+          <li class="rb-timeline__item">
+            <span class="rb-timeline__dot" aria-hidden="true"></span>
+            <div class="rb-card rb-wobble">
+              <p class="rb-timeline__date">15/09/26</p>
+              <h3>Sprint 3</h3>
+              <p>Aplicación de efectos de sonido.</p>
+            </div>
+          </li>
+        </ol>
+
+        <!-- TARJETA DE ALCANCES -->
+        <div class="rb-card rb-wobble" style="margin-top: 3.5rem; padding: 2rem;">
+          <h3 class="rb-title rb-title--lg" style="font-size: 2rem; text-align: left; margin-top: 0; margin-bottom: 1.5rem; line-height: 1.1;">
+            Alcances del proyecto
+          </h3>
+          <p style="margin-top: 1rem;">Estos son los objetivos planteados para las siguientes versiones del videojuego:</p>
+          
+          <ul class="rb-alcances-list">
+            <li><span aria-hidden="true"></span> Ampliar el tutorial inicial con explicaciones paso a paso.</li>
+            <li><span aria-hidden="true"></span> Sistema de pausa y reanudación en cualquier momento.</li>
+            <li><span aria-hidden="true"></span> Pantallas de victoria y derrota según el resultado.</li>
+          </ul>
+        </div>
+
+        <h3 class="rb-subtitle">Tecnologías utilizadas</h3>
+        <div class="rb-chips">
+          <span class="rb-chip">Unity</span>
+          <span class="rb-chip">C#</span>
+          <span class="rb-chip">Blender</span>
+          <span class="rb-chip">Audacity</span>
+          <span class="rb-chip">Visual Studio Code</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN 09 · EQUIPO
+         ============================================================ -->
+    <section class="rb-section" id="equipo" aria-labelledby="equipo-title">
+      <div class="rb-container">
+        <p class="rb-eyebrow">Equipo</p>
+        <h2 class="rb-title rb-title--lg" id="equipo-title">Quiénes lo hicieron</h2>
+
+        <div class="rb-grid-3">
+          <article class="rb-card rb-card--team rb-wobble">
+            <div class="rb-avatar rb-placeholder" role="img" aria-label="Avatar pendiente">
+              <img src="assets/images/team/IngaMigui.jpeg" alt="Imagen Avatar" loading="lazy" />
+            </div>
+            <h3 data-editable="team-nombre">MIGUEL SALGUERO ROSAS</h3>
+            <p class="rb-role" data-editable="team-rol">[Líder de Proyecto / Game Designer]</p>
+            <p class="rb-muted" data-editable="team-aporte">[Diseño de escenarios, desarrollador, gestión y mecánicas]</p>
+          </article>
+
+          <article class="rb-card rb-card--team rb-wobble">
+            <div class="rb-avatar rb-placeholder" role="img" aria-label="Avatar pendiente">
+              <span class="rb-placeholder__tag">AVATAR</span>
+              <img src="assets/images/screenshots/Image_1.png" alt="Imagen Avatar" loading="lazy" />
+            </div>
+            <h3 data-editable="team-nombre">ÁMERICA ALARCON PONCE</h3>
+            <p class="rb-role" data-editable="team-rol">[Diseño de escenarios y UI]</p>
+            <p class="rb-muted" data-editable="team-aporte">[Desarrollador de gráficos]</p>
+          </article>
+
+          <article class="rb-card rb-card--team rb-wobble">
+            <div class="rb-avatar rb-placeholder" role="img" aria-label="Avatar pendiente">
+              <img src="assets/images/team/IngaYare.jpg.jpeg" alt="Imagen Avatar" loading="lazy" />
+            </div>
+            <h3 data-editable="team-nombre">YARETZI RUBIO MARTÍNEZ</h3>
+            <p class="rb-role" data-editable="team-rol">[Diseño de escenarios y UI]</p>
+            <p class="rb-muted" data-editable="team-aporte">[Desarrollador y diseño]</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECCIÓN 10 · CONTACTO
+         ============================================================ -->
+    <section class="rb-section rb-section--papel" id="contacto" aria-labelledby="contacto-title">
+      <div class="rb-container">
+        <p class="rb-eyebrow">Contacto</p>
+        <h2 class="rb-title rb-title--lg" id="contacto-title">Hablemos</h2>
+
+        <div class="rb-grid-2">
+          <div class="rb-card rb-wobble">
+            <h3>Medios de contacto</h3>
+            <ul class="rb-factsheet">
+              <li><span>Correo</span><strong data-editable="contacto-email">[EDITAR]</strong></li>
+              <li><span>Redes</span><strong data-editable="contacto-redes">[EDITAR]</strong></li>
+            </ul>
+          </div>
+
+          <form class="rb-card rb-form rb-wobble" aria-disabled="true" onsubmit="return false;">
+            <h3>Formulario de comentarios</h3>
+            <p class="rb-badge rb-badge--muted">Aún no disponible</p>
+
+            <label for="cf-nombre">Nombre</label>
+            <input id="cf-nombre" type="text" placeholder="[EDITAR]" disabled />
+
+            <label for="cf-correo">Correo</label>
+            <input id="cf-correo" type="email" placeholder="[EDITAR]" disabled />
+
+            <label for="cf-mensaje">Mensaje</label>
+            <textarea id="cf-mensaje" rows="4" placeholder="[EDITAR]" disabled></textarea>
+
+            <button class="rb-btn rb-btn--disabled" type="button" disabled aria-disabled="true">
+              Enviar (no disponible)
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer class="site-footer"><div class="footer-brand">RB<span>© 2025</span></div><p>MADE WITH RHYTHM<br>FOR A CLEANER WORLD</p><div class="footer-links"><a href="#top">BACK TO TOP ↑</a><button id="footer-secret" type="button">?</button></div></footer>
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="rb-footer" aria-label="Pie de página">
+    <div class="rb-footer__inner">
+      <div class="rb-footer__col">
+        <h3 class="rb-footer__brand">Recycle&nbsp;Beats</h3>
+        <p>
+          Videojuego musical educativo sobre reciclaje. Aprende a clasificar residuos
+          al ritmo de la música.
+        </p>
+      </div>
 
-  <dialog class="demo-dialog" id="demo-dialog"><button class="dialog-close" id="close-dialog" aria-label="Cerrar">×</button><p class="eyebrow">DEMO MODE / 120 BPM</p><h2>DROP ON<br>THE BEAT<span>!</span></h2><p>Golpea cualquier tecla cuando el círculo toque el aro. Encadena 10 para entrar en la clasificación.</p><div class="beat-ring" id="beat-ring"><span>READY?</span></div><div class="demo-score"><span>SCORE <b id="demo-score">000000</b></span><span>COMBO <b id="demo-combo">0</b></span></div><button class="comic-button comic-button--yellow" id="start-demo" type="button"><span>START RUN</span><b>↗</b></button></dialog>
-  <div class="backroom-overlay" id="backroom" aria-hidden="true"><div class="backroom-content"><button class="dialog-close" id="close-backroom" aria-label="Cerrar">×</button><p class="eyebrow">HIDDEN ROOM // 04:04</p><h2>THE<br>BACK<span>ROOMS</span></h2><p>El beat sigue sonando, pero nadie recuerda haberlo puesto.</p><div class="liminal-door"><span>EXIT?</span></div><button class="comic-button comic-button--outline" id="backroom-beat" type="button"><span>TOCA EL SILENCIO</span><b>♪</b></button></div></div>
-  <script type="module" src="main.js"></script>
+      <div class="rb-footer__col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#el-juego">El juego</a></li>
+          <li><a href="#caracteristicas">Características</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#tutorial">Tutorial</a></li>
+          <li><a href="#descarga">Descarga</a></li>
+        </ul>
+      </div>
+
+      <div class="rb-footer__col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="Advertencias/creditos.html">Créditos</a></li>
+          <li><a href="Advertencias/licencias.html">Licencias</a></li>
+          <li><a href="Advertencias/privacidad.html">Aviso de privacidad</a></li>
+          <li><a href="Advertencias/advertencias.html">Advertencias</a></li>
+          <li><a href="Advertencias/descargo.html">Descargo de responsabilidad</a></li>
+        </ul>
+      </div>
+
+      <div class="rb-footer__col">
+        <h4>Proyecto</h4>
+        <ul>
+          <li><a href="#desarrollo">Desarrollo</a></li>
+          <li><a href="#equipo">Equipo</a></li>
+          <li><a href="Advertencias/uso-ia.html">Uso de IA</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rb-footer__bottom">
+      <p>© <span id="rb-year">2026</span> Recycle Beats. <span class="rb-muted"></span></p>
+    </div>
+  </footer>
+
+  <script src="site.js" defer></script>
 </body>
 </html>
