@@ -7,8 +7,12 @@
   <title>Recycle Beats — Sitio oficial</title>
   <meta name="description" content="Recycle Beats: videojuego musical educativo sobre reciclaje. Aprende a clasificar residuos al ritmo de la música." />
 
-  <meta name="theme-color" content="#EDEDED" />
+  <meta name="theme-color" content="#F2C200" />
   <link rel="icon" type="image/svg+xml" href="icon.svg" />
+<link rel="apple-touch-icon" href="image2.png" />
+  
+  <!-- ENLACE A LA PWA -->
+  <link rel="manifest" href="manifest.json" />
 
   <!-- Fredoka -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -609,6 +613,11 @@
       <p>© <span id="rb-year">2026</span> Recycle Beats. <span class="rb-muted"></span></p>
     </div>
   </footer>
+
+      <!-- BOTÓN FLOTANTE DE INSTALACIÓN PWA -->
+  <button id="pwa-install-btn" class="rb-btn rb-btn--amarillo" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; box-shadow: var(--rb-sombra-lg);">
+     Instalar App
+  </button>
 
   <script src="site.js" defer></script>
 </body>

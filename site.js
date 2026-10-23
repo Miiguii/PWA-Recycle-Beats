@@ -1,8 +1,5 @@
 /* ============================================================
-   RECYCLE BEATS — JS del sitio
-   - No enlaza manifest.json
-   - No registra service worker
-   - Sin dependencias externas
+   RECYCLE BEATS — JS del sitio (PWA Ready)
    ============================================================ */
 
 (function () {
@@ -90,4 +87,52 @@
   document.querySelectorAll('form[aria-disabled="true"]').forEach((form) => {
     form.addEventListener('submit', (e) => e.preventDefault());
   });
+
+  /* ---------- PWA: Registrar Service Worker ---------- */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then((registration) => {
+          console.log('Service Worker registrado con éxito:', registration.scope);
+        })
+        .catch((error) => {
+          console.error('Error al registrar el Service Worker:', error);
+        });
+    });
+  }
+
+  /* ---------- PWA: Lógica del botón de instalación ---------- */
+  let deferredPrompt;
+  const installBtn = document.getElementById('pwa-install-btn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Previene que el navegador muestre su propio mini-infobar
+    e.preventDefault();
+    // Guarda el evento para que se pueda activar más tarde
+    deferredPrompt = e;
+    // Muestra el botón personalizado
+    if (installBtn) installBtn.style.display = 'inline-flex';
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      // Muestra el prompt de instalación nativo
+      deferredPrompt.prompt();
+      // Espera a que el usuario responda
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`El usuario ${outcome === 'accepted' ? 'aceptó' : 'rechazó'} la instalación`);
+      // Ya no podemos usar este prompt
+      deferredPrompt = null;
+      // Ocultamos el botón
+      installBtn.style.display = 'none';
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    // Oculta el botón de instalación si la app se instaló correctamente
+    if (installBtn) installBtn.style.display = 'none';
+    console.log('¡Recycle Beats fue instalada con éxito!');
+  });
+
 })();
