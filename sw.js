@@ -8,7 +8,7 @@ const ASSETS_TO_CACHE = [
   './site.js',
   './manifest.json',
   './icon.svg',
-  './image2.png', // Asegúrate de tenerlo
+  './image2.png',
   // Páginas legales
   './Advertencias/creditos.html',
   './Advertencias/licencias.html',

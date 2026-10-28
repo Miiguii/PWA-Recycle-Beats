@@ -83,11 +83,6 @@
     });
   }
 
-  /* ---------- Bloquear envío del formulario deshabilitado ---------- */
-  document.querySelectorAll('form[aria-disabled="true"]').forEach((form) => {
-    form.addEventListener('submit', (e) => e.preventDefault());
-  });
-
   /* ---------- PWA: Registrar Service Worker ---------- */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -135,4 +130,57 @@
     console.log('¡Recycle Beats fue instalada con éxito!');
   });
 
+    /* ---------- Envío del formulario de contacto (AJAX) ---------- */
+  const form = document.getElementById('contacto-form');
+  const status = document.getElementById('form-status');
+
+  if (form) {
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault(); // Evita que la página se recargue
+      
+      const data = new FormData(form);
+      const button = form.querySelector('button');
+      const originalText = button.textContent;
+
+      button.textContent = 'Enviando...';
+      button.disabled = true;
+      status.style.display = 'none';
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: data,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          // Éxito
+          status.textContent = '¡Mensaje enviado con éxito! Te responderemos pronto.';
+          status.style.display = 'block';
+          status.style.backgroundColor = 'var(--rb-verde)';
+          status.style.color = 'white';
+          form.reset(); // Limpia los campos
+        } else {
+          // Error del servidor
+          status.textContent = 'Hubo un problema al enviar. Intenta de nuevo.';
+          status.style.display = 'block';
+          status.style.backgroundColor = 'var(--rb-rojo)';
+          status.style.color = 'white';
+        }
+      } catch (error) {
+        // Error de red
+        status.textContent = 'Error de conexión. Revisa tu internet.';
+        status.style.display = 'block';
+        status.style.backgroundColor = 'var(--rb-rojo)';
+        status.style.color = 'white';
+      }
+
+      button.textContent = originalText;
+      button.disabled = false;
+    });
+  }
+
 })();
+

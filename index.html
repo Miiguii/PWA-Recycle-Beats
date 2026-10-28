@@ -540,21 +540,27 @@
             </ul>
           </div>
 
-          <form class="rb-card rb-form rb-wobble" aria-disabled="true" onsubmit="return false;">
+                    <!-- Formulario Funcional con Formspree -->
+          <form class="rb-card rb-form rb-wobble" action="https://formspree.io/f/xdeezrwj" method="POST" id="contacto-form">
             <h3>Formulario de comentarios</h3>
-            <p class="rb-badge rb-badge--muted">Aún no disponible</p>
+            
+            <!-- Aquí aparecerá el mensaje de éxito o error -->
+            <div id="form-status" style="display: none; padding: 10px; margin-bottom: 15px; border: 3px solid var(--rb-negro); font-weight: bold; text-align: center;"></div>
 
             <label for="cf-nombre">Nombre</label>
-            <input id="cf-nombre" type="text" placeholder="[EDITAR]" disabled />
+            <input id="cf-nombre" type="text" name="nombre" placeholder="Escribe tu nombre" required />
 
             <label for="cf-correo">Correo</label>
-            <input id="cf-correo" type="email" placeholder="[EDITAR]" disabled />
+            <input id="cf-correo" type="email" name="email" placeholder="tu@correo.com" required />
 
             <label for="cf-mensaje">Mensaje</label>
-            <textarea id="cf-mensaje" rows="4" placeholder="[EDITAR]" disabled></textarea>
+            <textarea id="cf-mensaje" name="mensaje" rows="4" placeholder="Escribe tu comentario o reporte de error..." required></textarea>
 
-            <button class="rb-btn rb-btn--disabled" type="button" disabled aria-disabled="true">
-              Enviar (no disponible)
+            <!-- Campo oculto para evitar spam -->
+            <input type="text" name="_gotcha" style="display:none" />
+
+            <button class="rb-btn rb-btn--amarillo" type="submit" style="margin-top: 1rem;">
+              Enviar mensaje
             </button>
           </form>
         </div>
