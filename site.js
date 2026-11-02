@@ -1,15 +1,15 @@
-/* ============================================================
-   RECYCLE BEATS — JS del sitio (PWA Ready)
-   ============================================================ */
+
+   // RECYCLE BEATS — JS del sitio (PWA)
+  
 
 (function () {
   'use strict';
 
-  /* ---------- Año dinámico ---------- */
+  /*  Año dinámico */
   const yearEl = document.getElementById('rb-year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-  /* ---------- Menú móvil ---------- */
+  /* Menú móvil */
   const nav = document.getElementById('rb-nav-menu');
   const toggle = document.getElementById('rb-nav-toggle');
 
@@ -31,7 +31,7 @@
     window.addEventListener('resize', () => { if (window.innerWidth >= 900) closeNav(); });
   }
 
-  /* ---------- Reveal al scroll ---------- */
+  /* Reveal al scroll */
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
@@ -54,7 +54,7 @@
     targets.forEach((el) => observer.observe(el));
   }
 
-  /* ---------- Enlace activo en navbar ---------- */
+  /*  Enlace activo en navbar  */
   const navLinks = Array.from(document.querySelectorAll('.rb-navbar__nav a[href^="#"]'));
 
   if (navLinks.length && 'IntersectionObserver' in window) {
@@ -83,7 +83,7 @@
     });
   }
 
-  /* ---------- PWA: Registrar Service Worker ---------- */
+  /*  PWA: Registrar Service Worker  */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('sw.js')
@@ -96,7 +96,7 @@
     });
   }
 
-  /* ---------- PWA: Lógica del botón de instalación ---------- */
+  /*  PWA: Lógica del botón de instalación  */
   let deferredPrompt;
   const installBtn = document.getElementById('pwa-install-btn');
 
@@ -130,7 +130,7 @@
     console.log('¡Recycle Beats fue instalada con éxito!');
   });
 
-    /* ---------- Envío del formulario de contacto (AJAX) ---------- */
+    /*  Envío del formulario de contacto (AJAX)  */
   const form = document.getElementById('contacto-form');
   const status = document.getElementById('form-status');
 
@@ -181,6 +181,85 @@
       button.disabled = false;
     });
   }
+
+  
+    /* ESTRUCTURA DE NOTIFICACIONES PUSH (Frontend) */
+  
+  // Llave pública (En un entorno real, esta llave viene del servidor)
+  // Esta es una llave de ejemplo, sirve para que la estructura no marque error.
+  const PUBLIC_VAPID_KEY = 'BEl62iUYgUivxIkv69yViEuiBIa-Ib9-SkvMeAtA3LFgDzkrxZJjSgSnfckjBJuBkr3qBUYIHBQFLXYp5Nksh8';
+
+  // Convertir la llave base64 a un formato que entienda el navegador
+  function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  }
+
+  // Función para suscribirse
+  async function suscribirPush() {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      alert('Tu navegador no soporta notificaciones push.');
+      return;
+    }
+
+    try {
+      // 1. Pedir permiso al usuario
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') {
+        alert('Permiso de notificaciones denegado.');
+        return;
+      }
+
+      // 2. Esperar a que el Service Worker esté listo
+      const registration = await navigator.serviceWorker.ready;
+
+      // 3. Suscribir al usuario
+      const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY)
+      });
+
+      console.log('Suscripción exitosa:', subscription);
+
+      // 4. ENVIAR LA SUSCRIPCIÓN AL SERVIDOR (backend)
+      /*
+      await fetch('http://localhost:8080/subscribe', {
+        method: 'POST',
+        body: JSON.stringify(subscription),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      */
+      
+      alert('¡Te has suscrito a las notificaciones con éxito! (Revisa la consola)');
+
+    } catch (error) {
+      console.error('Error al suscribirse a notificaciones:', error);
+      alert('Hubo un error al activar las notificaciones.');
+    }
+  }
+
+  // Crear un botón flotante temporal para probar la estructura
+  const btnPush = document.createElement('button');
+  btnPush.textContent = 'Activar Notificaciones';
+  btnPush.className = 'rb-btn rb-btn--azul';
+  btnPush.style.cssText = 'position: fixed; bottom: 80px; right: 20px; z-index: 9999; font-size: 0.9rem; padding: 0.5rem 1rem;';
+  
+  // Insertar el botón en el body
+  document.body.appendChild(btnPush);
+
+  // Asignar el evento al botón
+  btnPush.addEventListener('click', () => {
+    suscribirPush();
+    btnPush.remove(); // Ocultar el botón después de hacer clic
+  });
 
 })();
 

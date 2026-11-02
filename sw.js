@@ -83,3 +83,59 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+
+// LÓGICA DE NOTIFICACIONES PUSH
+
+
+// Escuchar el evento de notificación entrante
+self.addEventListener('push', function (event) {
+  console.log('[Service Worker] Push recibido.');
+
+  let data = {
+    title: '¡Nuevo aviso de Recycle Beats!',
+    body: 'Visita el sitio para ver las novedades.',
+    icon: 'image2.png',
+    badge: 'image2.png'
+  };
+
+  // Si el servidor envía datos, los usamos
+  if (event.data) {
+    try {
+      data = event.data.json();
+    } catch (e) {
+      data.body = event.data.text();
+    }
+  }
+
+  const options = {
+    body: data.body,
+    icon: data.icon || 'image2.png',
+    badge: data.badge || 'image2.png',
+    vibrate: [100, 50, 100],
+    data: {
+      dateOfArrival: Date.now(),
+      primaryKey: '1'
+    },
+    actions: [
+      {
+        action: 'explore',
+        title: 'Ir a Recycle Beats'
+      }
+    ]
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+});
+
+// Manejar cuando el usuario hace clic en la notificación
+self.addEventListener('notificationclick', function (event) {
+  event.notification.close();
+  
+  if (event.action === 'explore' || !event.action) {
+    event.waitUntil(
+      clients.openWindow('./') // Abre la página principal
+    );
+  }
+});
