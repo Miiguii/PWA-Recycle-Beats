@@ -201,7 +201,7 @@
     return outputArray;
   }
 
-  // Función para suscribirse
+    // Función para suscribirse (Versión corregida y a prueba de errores)
   async function suscribirPush() {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
       alert('Tu navegador no soporta notificaciones push.');
@@ -216,18 +216,24 @@
         return;
       }
 
-      // 2. Esperar a que el Service Worker esté listo
+      // 2. ESPERAR a que el Service Worker esté listo (Aquí estaba el error)
+      console.log('Esperando a que el Service Worker esté listo...');
       const registration = await navigator.serviceWorker.ready;
-
-      // 3. Suscribir al usuario
-      const subscription = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY)
-      });
+      
+      // 3. Verificar si ya hay una suscripción activa para no duplicar
+      let subscription = await registration.pushManager.getSubscription();
+      
+      if (!subscription) {
+        // 4. Si no hay, suscribir al usuario
+        subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY)
+        });
+      }
 
       console.log('Suscripción exitosa:', subscription);
 
-      // 4. ENVIAR LA SUSCRIPCIÓN AL SERVIDOR (backend)
+      // 5. ENVIAR LA SUSCRIPCIÓN AL SERVIDOR (Aquí conectarías con el backend)
       /*
       await fetch('http://localhost:8080/subscribe', {
         method: 'POST',
@@ -242,7 +248,7 @@
 
     } catch (error) {
       console.error('Error al suscribirse a notificaciones:', error);
-      alert('Hubo un error al activar las notificaciones.');
+      alert('Hubo un error al activar las notificaciones. Revisa la consola (F12) para más detalles.');
     }
   }
 
