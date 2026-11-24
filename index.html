@@ -242,14 +242,15 @@
         <h2 class="rb-title rb-title--lg" id="trailer-title">Mira el tráiler</h2>
 
         <div class="rb-video-frame rb-wobble">
-          <div class="rb-placeholder rb-placeholder--video" role="img"
-              aria-label="Tráiler pendiente de publicación">
-            <span class="rb-placeholder__tag">PRÓXIMAMENTE</span>
-            <span class="rb-placeholder__path">assets/video/recicle-beats.mp4</span>
-            <!-- Si prefieres conservar el nombre original con espacio, usa:
-            <span class="rb-placeholder__path">assets/video/Recicle%20Beats.mp4</span>
-            -->
-          </div>
+          <video
+            class="rb-video"
+            controls
+            preload="metadata"
+            playsinline
+            aria-label="Tráiler de Recicle Beats">
+            <source src="assets/video/recicle-beats.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de video.
+          </video>
         </div>
       </div>
     </section>
