@@ -18,6 +18,7 @@ const ASSETS_TO_CACHE = [
   './Advertencias/uso-ia.html',
   // Imágenes y video principales
   './assets/video/Video_1.mp4',
+  './assets/video/recicle-beats.mp4',
   './assets/images/screenshots/Image_1.png',
   './assets/images/screenshots/Image_2.png',
   './assets/images/screenshots/Image_3.png',
