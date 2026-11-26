@@ -1,4 +1,4 @@
-const CACHE_NAME = 'recycle-beats-v15.0.0';
+const CACHE_NAME = 'recycle-beats-v17.0.0';
 
 // Lista de archivos esenciales para que el sitio funcione sin internet
 const ASSETS_TO_CACHE = [
