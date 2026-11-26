@@ -426,6 +426,13 @@ p { font-size: 1.1rem; line-height: 1.65; }
 .rb-card--team { text-align: center; }
 .rb-card--team .rb-muted { text-align: center; }
 
+/* Ocultar el botón en pantallas menores a 768px (tablets y móviles) */
+@media (max-width: 768px) {
+  .btn-descarga-pc {
+    display: none !important;
+  }
+}
+
 /* ============================================================
    RESPONSIVO PARA MÓVILES (Ajustes finales)
    ============================================================ */
